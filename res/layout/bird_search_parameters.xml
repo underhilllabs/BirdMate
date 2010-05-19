@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    android:id="@+id/widget54"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    >
+<RelativeLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="fill_parent"
+  android:layout_height="fill_parent">
+  
+<TextView
+	android:id="@+id/tvHeader"
+	android:layout_width="fill_parent"
+	android:layout_height="wrap_content"
+	android:text="Bird Search"
+	  android:textSize="18sp"
+      android:layout_marginBottom="10dip"
+	/>
+  
+<TextView
+	android:id="@+id/tvDistance"
+	android:layout_width="fill_parent"
+	android:layout_height="wrap_content"
+	android:text="Max Distance (Km)"
+	android:layout_below="@id/tvHeader"
+	/>
+<EditText
+	android:layout_width="fill_parent"
+	android:layout_height="wrap_content"
+	    android:inputType="number"
+	android:id="@+id/etDistance"
+	android:layout_below="@+id/tvDistance"
+	/>
+<TextView
+	android:id="@+id/tvMaxResults"
+	android:layout_width="fill_parent"
+	android:layout_height="wrap_content"
+	android:text="Max Results"
+	android:layout_below="@+id/etDistance"
+	/>
+<EditText
+	android:id="@+id/etMaxResults"
+		android:layout_width="fill_parent"
+android:layout_height="wrap_content"
+	android:inputType="number"
+	android:layout_below="@+id/tvMaxResults"
+	/>
+<TextView
+	android:id="@+id/tvAllOrNotable"
+	android:layout_width="fill_parent"
+	android:layout_height="wrap_content"
+	android:text="Search for all or notable Birds"
+	android:layout_below="@+id/etMaxResults"
+	/>
+<RadioGroup
+	android:id="@+id/rg_all_notable"
+	android:layout_width="fill_parent"
+	android:layout_height="wrap_content"
+	android:layout_below="@id/tvAllOrNotable"
+	
+	>
+	<RadioButton
+	android:id="@+id/rb_all"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="All"
+	android:layout_below="@id/tvAllOrNotable"
+	/>
+	<RadioButton
+	android:id="@+id/rb_notable"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Notable"
+	android:layout_below="@id/tvAllOrNotable"
+	/>
+</RadioGroup>
+<TextView
+	android:id="@+id/tvDaysBack"	
+	android:layout_width="fill_parent"
+	android:layout_height="wrap_content"
+	android:text="Days back to search (1-30)"
+	android:layout_below="@id/rg_all_notable"
+	/>
+<EditText
+	android:id="@+id/etDaysBack"
+	android:layout_width="fill_parent"
+	android:layout_height="wrap_content"
+	android:inputType="number"
+	android:layout_below="@id/tvDaysBack"
+	/>
+	
+	<Button  
+	android:id="@+id/searchButton"
+    android:layout_width="fill_parent" 
+    android:layout_below="@id/etDaysBack"
+	android:layout_height="wrap_content"
+    android:text="Search Bird Sightings"
+    />
+</RelativeLayout>
+</ScrollView>

@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="wrap_content"
+  android:layout_height="wrap_content">
+  <TextView  
+android:id="@+id/top_label" 
+	style="@style/FormTop"
+    android:text="Bird Sighting"
+   />
+<TextView
+android:id="@+id/com_name_label"    
+    android:layout_width="wrap_content" 
+    android:layout_height="wrap_content" 
+    android:text="Common Name: "
+    android:layout_below="@id/top_label"
+    android:layout_marginBottom="10px"
+	
+    />
+	<TextView
+	android:id="@+id/com_name"  
+    android:layout_width="wrap_content" 
+    android:layout_height="wrap_content" 
+    android:layout_toRightOf="@id/com_name_label"
+    android:layout_alignTop="@id/com_name_label"
+    />
+    
+<TextView  
+	android:id="@+id/sci_name_label"  
+    android:layout_width="wrap_content" 
+    android:layout_height="wrap_content" 
+    android:text="Scientific Name: "
+    android:layout_below="@id/com_name_label"
+    android:layout_marginBottom="10px"
+	/>
+	<TextView
+	android:id="@+id/sci_name"  
+    android:layout_width="wrap_content" 
+    android:layout_height="wrap_content" 
+   android:layout_toRightOf="@id/sci_name_label"
+    android:layout_alignTop="@id/sci_name_label"
+ 	/>    
+<TextView
+	android:id="@+id/date_label"    
+    android:layout_width="wrap_content" 
+    android:layout_height="wrap_content" 
+    android:text="Date sighted: "
+    android:layout_below="@id/sci_name_label"
+    android:layout_marginBottom="10px"
+	/>
+	<TextView
+	android:id="@+id/date"  
+    android:layout_width="wrap_content" 
+    android:layout_height="wrap_content" 
+    android:layout_toRightOf="@id/date_label"
+    android:layout_alignTop="@id/date_label"
+    />
+<TextView
+	android:id="@+id/loc_id_label"    
+    android:layout_width="wrap_content" 
+    android:layout_height="wrap_content" 
+    android:text="Location Name: "
+    android:layout_below="@id/date_label" 
+    android:layout_marginBottom="10px"
+	/>
+    <TextView
+	android:id="@+id/loc_id"  
+    android:layout_width="wrap_content" 
+    android:layout_height="wrap_content" 
+   android:layout_toRightOf="@id/loc_id_label"
+    android:layout_alignTop="@id/loc_id_label"
+ 	/>    
+
+
+<TextView  
+	android:id="@+id/lat_label"  
+	android:layout_width="wrap_content" 
+    android:layout_height="wrap_content" 
+    android:text="Latitude: "
+	android:layout_below="@id/loc_id_label"
+	android:layout_marginBottom="5px"
+	
+        />
+	<TextView
+	android:id="@+id/latitude"  
+    android:layout_width="wrap_content" 
+    android:layout_height="wrap_content" 
+    android:layout_toRightOf="@id/lat_label"
+    android:layout_alignTop="@id/lat_label"
+	android:layout_below="@id/loc_id_label"
+   
+	/>    
+  <TextView  
+	android:id="@+id/lng_label"  
+	android:layout_width="wrap_content" 
+    android:layout_height="wrap_content" 
+    android:text="Latitude: "
+	android:layout_below="@id/lat_label"
+	android:layout_marginBottom="5px"
+	
+        />
+	<TextView
+	android:id="@+id/lng"  
+    android:layout_width="wrap_content" 
+    android:layout_height="wrap_content" 
+    android:layout_toRightOf="@id/lng_label"
+    android:layout_alignTop="@id/lng_label"
+	android:layout_below="@id/lat_label"
+    
+	/>    
+  
+  
+  
+</RelativeLayout>

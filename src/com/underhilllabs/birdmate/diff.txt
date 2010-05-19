@@ -1,0 +1,174 @@
+--- NearbyNotableBirdsActivity.java	2010-04-13 18:59:33.000000000 -0600
++++ NearbyBirdsActivity.java	2010-04-13 18:51:41.000000000 -0600
+@@ -32,7 +32,7 @@
+ import android.widget.ListView;
+ import android.widget.AdapterView.OnItemClickListener;
+ 
+-public class NearbyNotableBirdsActivity extends ListActivity {
++public class NearbyBirdsActivity extends ListActivity {
+ 	String[] birdnames; 
+ 	Location loc;
+ 	LocationManager lm;
+@@ -46,13 +46,10 @@
+ 	String [] dates;
+ 	String [] locNames;
+ 	List <BirdSighting> bs_list;
+-	ArrayAdapter aa;
++	private ArrayAdapter aa;
+ 	public final String TAG = "BirdMate";
+ 	public final int MAP_ID = Menu.FIRST;
+ 	public final int HOME_ID = Menu.FIRST+1;
+-
+-	public final int DISTANCE = 20;
+-	public final int MAX_RESULTS=10;
+ 	
+     /** Called when the activity is first created. */
+     @Override
+@@ -60,21 +57,19 @@
+         super.onCreate(savedInstanceState);
+         setContentView(R.layout.bird_sightings_list);
+         bs_list = new ArrayList();
+-        
+- 
+         lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+         loc = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
++        maxResults = 10;
+         lats = new double[25];
+         lngs = new double[25];
+         com_names = new String[25];
+-        ListView lv = getListView();
++    	ListView lv = getListView();
+     	lv.setOnItemClickListener(new OnItemClickListener() {
+ 			public void onItemClick(AdapterView<?> av, View v, int position,
+ 					long id) {
+-				 // grab the BirdSight object, serialize it, send it to the intent 
+-	   			 BirdSighting bs = bs_list.get(position);
+-				
+-				 Intent i = new Intent(NearbyNotableBirdsActivity.this, BirdSightingView.class);
++				 BirdSighting bs = bs_list.get(position);
++  				 Log.d("birdmate","com name "+bs.com_name);
++				 Intent i = new Intent(NearbyBirdsActivity.this, BirdSightingView.class);
+ 		         i.putExtra("com_name",bs.com_name);
+ 		         i.putExtra("sci_name",bs.sci_name);
+ 		         i.putExtra("date",bs.date);
+@@ -82,24 +77,23 @@
+ 		         i.putExtra("lat",bs.latitude);
+ 		         i.putExtra("lng",bs.longitude);
+ 		         startActivity(i);
+-		         
+ 			}
+          });
+-        
+-        String restUrl = "http://ebird.org/ws1.1/data/notable/geo/recent?lng="+loc.getLongitude()+"&lat="+loc.getLatitude()+"&dist="+DISTANCE+"&back=30&maxResults="+MAX_RESULTS+"&locale=en_US&fmt=json";
+-        new DownloadDataTask().execute(restUrl);
+-       	//aa = new ArrayAdapter(this, R.layout.bird_sightings_list_row,R.id.tvBirdSighting, bs_list);
+-       	//setListAdapter(aa);
++    	String restUrl = "http://ebird.org/ws1.1/data/obs/geo/recent?lng="+loc.getLongitude()+"&lat="+loc.getLatitude()+"&dist=10&back=5&maxResults="+maxResults+"&locale=en_US&fmt=json"; 
++    	//getRestStuff(restUrl);
++    	new DownloadDataTask().execute(restUrl);
++    	//aa = new ArrayAdapter(this, R.layout.bird_sightings_list_row,R.id.tvBirdSighting, bs_list);
++    	//setListAdapter(aa);
+         
+     }
+-    
+     private void updateList() {
+     	aa = new ArrayAdapter(this, R.layout.bird_sightings_list_row,R.id.tvBirdSighting, bs_list);
+     	setListAdapter(aa);    
+     }
+-    private void getRestStuff(String myUrl) {
++    private void getRestStuff (String myUrl) {
+         String result = queryRESTurl(myUrl);
+ 
++        
+         try {
+         	JSONArray json_arr = new JSONArray(result);
+         	for(int i = 0; i < maxResults; i++) {
+@@ -114,16 +108,46 @@
+         					json.getDouble("lat"),
+         					json.getDouble("lng")	
+         			);
+-        			if (bs != null)
++        			
++        			if (bs != null) 
+         				bs_list.add( bs );
+         			lats[i] = json.getDouble("lat");
+         			lngs[i]  = json.getDouble("lng");
+         			com_names[i] = json.getString("comName");
++        			
+         		}
+         	}
++
+         } catch (JSONException e) {
+         	Log.e("JSON", "There was an error parsing the JSON", e);
+         }
++    	
++    }
++    
++    // TODO fill this asynctask with REST and JSON stuff
++    private class DownloadDataTask extends AsyncTask<String, Void, Void> {
++    	private final ProgressDialog dialog = new ProgressDialog(NearbyBirdsActivity.this);
++
++    	// can use UI thread here
++    	protected void onPreExecute() {
++    		this.dialog.setMessage("Downloading bird sightings...");
++    		this.dialog.show();
++    	}
++
++    	// automatically done on worker thread (separate from UI thread)
++    	protected Void doInBackground(final String... args) {
++    		// do JSON stuff
++    		getRestStuff(args[0]);
++    		return null;
++    	}
++
++    	// can use UI thread here
++    	protected void onPostExecute(final Void unused) {
++    		if (this.dialog.isShowing()) {
++    			this.dialog.dismiss();
++    			updateList();
++    		}
++    	}
+     }
+ 
+     private String queryRESTurl(String url) {
+@@ -153,32 +177,7 @@
+     	
+     	return null;
+     }
+- // TODO fill this asynctask with REST and JSON stuff
+-    private class DownloadDataTask extends AsyncTask<String, Void, Void> {
+-    	private final ProgressDialog dialog = new ProgressDialog(NearbyNotableBirdsActivity.this);
+-
+-    	// can use UI thread here
+-    	protected void onPreExecute() {
+-    		this.dialog.setMessage("Downloading bird sightings...");
+-    		this.dialog.show();
+-    	}
+-
+-    	// automatically done on worker thread (separate from UI thread)
+-    	protected Void doInBackground(final String... args) {
+-    		// do JSON stuff
+-    		getRestStuff(args[0]);
+-    		return null;
+-    	}
+-
+-    	// can use UI thread here
+-    	protected void onPostExecute(final Void unused) {
+-    		if (this.dialog.isShowing()) {
+-    			this.dialog.dismiss();
+-    			updateList();
+-    		}
+-    	}
+-    }
+-
++    
+     @Override
+     public boolean onCreateOptionsMenu(Menu menu) {
+         boolean result = super.onCreateOptionsMenu(menu);
+@@ -206,6 +205,5 @@
+         }
+         return super.onOptionsItemSelected(item);
+     }
+-
+ }
+ 
